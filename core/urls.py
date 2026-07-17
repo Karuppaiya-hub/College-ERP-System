@@ -10,6 +10,9 @@ urlpatterns = [
     path('students/<int:pk>/', views.student_detail),
     path('students/<int:student_id>/grades/', views.student_grades),
 
+    # Grades alias for student portal
+    path('grades/student/<int:student_id>/', views.student_grades),
+
     # Faculty
     path('faculty/', views.faculty_list_create),
     path('faculty/<int:pk>/', views.faculty_detail),

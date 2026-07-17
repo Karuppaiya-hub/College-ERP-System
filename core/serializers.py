@@ -177,21 +177,27 @@ class ExamSerializer(serializers.ModelSerializer):
 class GradeSerializer(serializers.ModelSerializer):
     student_name = serializers.SerializerMethodField()
     exam_name = serializers.SerializerMethodField()
+    exam_type = serializers.SerializerMethodField()
+    exam_max_marks = serializers.SerializerMethodField()
+    exam_pass_marks = serializers.SerializerMethodField()
+    course_name = serializers.SerializerMethodField()
 
     class Meta:
         model = Grade
         fields = [
             'id', 'student', 'student_name', 'exam', 'exam_name',
+            'exam_type', 'exam_max_marks', 'exam_pass_marks', 'course_name',
             'marks_obtained', 'grade', 'remarks',
             'created_at', 'updated_at',
         ]
         read_only_fields = ['id', 'created_at', 'updated_at']
 
-    def get_student_name(self, obj):
-        return obj.student.full_name
-
-    def get_exam_name(self, obj):
-        return obj.exam.name
+    def get_student_name(self, obj): return obj.student.full_name
+    def get_exam_name(self, obj): return obj.exam.name
+    def get_exam_type(self, obj): return obj.exam.exam_type
+    def get_exam_max_marks(self, obj): return obj.exam.max_marks
+    def get_exam_pass_marks(self, obj): return obj.exam.pass_marks
+    def get_course_name(self, obj): return f"{obj.exam.course.code} - {obj.exam.course.name}"
 
 
 class GradeSubmitSerializer(serializers.Serializer):
