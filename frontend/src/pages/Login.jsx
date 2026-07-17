@@ -28,8 +28,11 @@ export default function Login() {
       if (user.role === 'student') navigate('/student')
       else navigate('/')
     } catch (err) {
-      const msg = err.response?.data?.detail
-        || err.response?.data?.non_field_errors?.[0]
+      const data = err.response?.data
+      const msg = data?.detail
+        || data?.non_field_errors?.[0]
+        || data?.username?.[0]
+        || data?.password?.[0]
         || 'Invalid credentials. Please try again.'
       setError(msg)
     } finally {
