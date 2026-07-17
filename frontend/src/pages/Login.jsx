@@ -24,12 +24,14 @@ export default function Login() {
     setError('')
     setLoading(true)
     try {
-      const user = await login(form.username, form.password)
-      // redirect by role
+      const user = await login(form.username, form.password, role)
       if (user.role === 'student') navigate('/student')
       else navigate('/')
-    } catch {
-      setError('Invalid credentials. Please try again.')
+    } catch (err) {
+      const msg = err.response?.data?.detail
+        || err.response?.data?.non_field_errors?.[0]
+        || 'Invalid credentials. Please try again.'
+      setError(msg)
     } finally {
       setLoading(false)
     }
